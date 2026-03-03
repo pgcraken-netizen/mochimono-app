@@ -277,27 +277,24 @@ export default function App() {
     setDetailId(null);
   };
 
-  return (
+return (
+  <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-      <div style={S.app}>
-        <div style={S.header}><div style={S.logo}>もちもの帳</div></div>
-        <div style={S.content}>
-          {detailId ? (
-            <DetailScreen item={items.find(i => i.id === detailId)} onBack={() => setDetailId(null)} onDone={handleDone} />
-          ) : showRegister ? (
-            <RegisterScreen onBack={() => setShowRegister(false)} onSave={handleRegister} />
-          ) : (
-            <>
-              {tab === 'map' ? <MapScreen items={items} gps={gps} onDetail={setDetailId} /> : <ListScreen items={items} gps={gps} onDetail={setDetailId} />}
-              <button style={S.fab} onClick={() => setShowRegister(true)}>＋ 登録する</button>
-            </>
-          )}
-        </div>
-        <div style={S.nav}>
-          <div style={S.navItem(tab === 'map')} onClick={() => {setTab('map'); setDetailId(null);}}>🗺 マップ</div>
-          <div style={S.navItem(tab === 'list')} onClick={() => {setTab('list'); setDetailId(null);}}>📋 リスト</div>
-        </div>
-      </div>
+      <Map
+        style={{ width: '100%', height: '100%' }} // ここを100%にする
+        defaultCenter={{ lat: 36.562, lng: 139.883 }} // 宇都宮付近
+        defaultZoom={13}
+        gestureHandling={'greedy'}
+        disableDefaultUI={true}
+      >
+        {/* ピンの表示など */}
+      </Map>
     </APIProvider>
-  );
+
+    {/* 「＋登録する」ボタンなどのUIを重ねる */}
+    <div style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
+       <button>＋ 登録する</button>
+    </div>
+  </div>
+);
 }
