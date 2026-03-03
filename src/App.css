@@ -31,12 +31,42 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* PC・スマホ共通の基本スタイル */
+.register-button {
+  position: absolute;
+  z-index: 10; /* 地図より前面に出す */
+  background-color: #007bff; /* 青色 */
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* スマホ用の設定（画面幅が768px以下のとき） */
+@media (max-width: 768px) {
+  .register-button {
+    bottom: 30px; /* 下から少し浮かせる */
+    left: 50%;
+    transform: translateX(-50%); /* 画面中央に配置 */
+    width: 80%; /* 画面幅の80%にして押しやすく */
+    height: 60px; /* 指で押しやすい高さ */
+    font-size: 1.2rem;
   }
 }
 
+/* PC用の設定（画面幅が769px以上のとき） */
+@media (min-width: 769px) {
+  .register-button {
+    bottom: 40px;
+    right: 40px; /* PCは右下が操作しやすい */
+    width: 200px;
+    height: 50px;
+    font-size: 1rem;
+  }
+}
 .card {
   padding: 2em;
 }

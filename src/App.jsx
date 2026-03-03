@@ -278,23 +278,16 @@ export default function App() {
   };
 
 return (
-  <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-      <Map
-        style={{ width: '100%', height: '100%' }} // ここを100%にする
-        defaultCenter={{ lat: 36.562, lng: 139.883 }} // 宇都宮付近
-        defaultZoom={13}
-        gestureHandling={'greedy'}
-        disableDefaultUI={true}
-      >
-        {/* ピンの表示など */}
-      </Map>
-    </APIProvider>
+// App.jsx
+<div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+  <Map ... >
+    {/* 地図の内容 */}
+  </Map>
 
-    {/* 「＋登録する」ボタンなどのUIを重ねる */}
-    <div style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
-       <button>＋ 登録する</button>
-    </div>
-  </div>
+  {/* CSSで制御されるボタン */}
+  <button className="register-button" onClick={/* 登録処理 */}>
+    ＋ 登録する
+  </button>
+</div>
 );
 }
