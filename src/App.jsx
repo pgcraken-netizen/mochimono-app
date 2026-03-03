@@ -278,16 +278,37 @@ export default function App() {
   };
 
 return (
-// App.jsx
-<div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-  <Map ... >
-    {/* 地図の内容 */}
-  </Map>
+    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+      <div style={{ ...S.app, maxWidth: 'none', width: '100vw' }}>
+        <header style={S.header}>
+          <div style={S.logo}>もちもの帳</div>
+        </header>
 
-  {/* CSSで制御されるボタン */}
-  <button className="register-button" onClick={/* 登録処理 */}>
-    ＋ 登録する
-  </button>
-</div>
-);
+        <div style={S.content}>
+          {page}
+          
+          {/* マップ表示中かつ登録・詳細画面でない時に大きなボタンを出す */}
+          {!showRegister && !detailId && tab === 'map' && (
+            <button 
+              style={S.fab} 
+              onClick={() => setShowRegister(true)}
+            >
+              ＋ 登録する
+            </button>
+          )}
+        </div>
+
+        <nav style={S.nav}>
+          <div style={S.navItem(tab === 'map')} onClick={() => {setTab('map'); setDetailId(null); setShowRegister(false);}}>
+            <span style={{fontSize:24}}>🗺️</span>
+            <span style={{fontSize:10}}>マップ</span>
+          </div>
+          <div style={S.navItem(tab === 'list')} onClick={() => {setTab('list'); setDetailId(null); setShowRegister(false);}}>
+            <span style={{fontSize:24}}>📋</span>
+            <span style={{fontSize:10}}>リスト</span>
+          </div>
+        </nav>
+      </div>
+    </APIProvider>
+  );
 }
