@@ -258,7 +258,6 @@ function DetailScreen({ item, onBack, onDone }) {
     MAIN APP
 ══════════════════════════════════════════ */
 export default function App() {
-  console.log("API Key Check:", import.meta.env.VITE_GOOGLE_MAPS_API_KEY);
   const [items, setItems] = useState(SEED);
   const [tab, setTab] = useState('map');
   const [detailId, setDetailId] = useState(null);
@@ -277,7 +276,19 @@ export default function App() {
     setDetailId(null);
   };
 
-return (
+  // ★ここが重要！ page 変数をここで定義します
+  let page = null;
+  if (showRegister) {
+    page = <RegisterScreen onBack={() => setShowRegister(false)} onSave={handleRegister} />;
+  } else if (detailId) {
+    page = <DetailScreen item={items.find(i => i.id === detailId)} onBack={() => setDetailId(null)} onDone={handleDone} />;
+  } else {
+    page = tab === 'map' ? 
+      <MapScreen items={items} gps={gps} onDetail={setDetailId} /> : 
+      <ListScreen items={items} gps={gps} onDetail={setDetailId} />;
+  }
+
+  return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <div style={{ ...S.app, maxWidth: 'none', width: '100vw' }}>
         <header style={S.header}>
@@ -285,9 +296,8 @@ return (
         </header>
 
         <div style={S.content}>
-          {page}
+          {page} {/* ここで page を使います */}
           
-          {/* マップ表示中かつ登録・詳細画面でない時に大きなボタンを出す */}
           {!showRegister && !detailId && tab === 'map' && (
             <button 
               style={S.fab} 
